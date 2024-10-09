@@ -30,6 +30,11 @@ async function npmCi({ cwd } = {}) {
 
 		// pnpm is not installed on GitHub Actions by default
 		installCommand = 'npx pnpm i --frozen-lockfile';
+	} else if (fs.existsSync('bun.lockb')) {
+		log.info('Installing dependencies with bun');
+
+		// bun is not installed on GitHub Actions by default, expect user to use `oven-sh/setup-bun`
+		installCommand = 'bun i --frozen-lockfile';
 	} else {
 		log.info('No lock file detected. Installing dependencies with npm');
 		installCommand = 'npm i';
